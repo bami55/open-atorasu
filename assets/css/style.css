@@ -454,8 +454,14 @@ h1 {
 }
 
 .link:hover {
-    color: #FFE4B5;
+    color: #ffffff;
     text-decoration: none;
+    animation: link-hover 0.3s ease-in-out;
+}
+
+@keyframes link-hover {
+    0%, 100% { color: #FFE4B5; }
+    100% { color: #ffffff; }
 }
 
 /* CTA */
