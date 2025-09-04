@@ -10,7 +10,7 @@ body {
     color: #FFFFFF;
     background: 
         linear-gradient(135deg, rgba(0, 117, 68, 0.8) 0%, rgb(42, 124, 140, 0.8) 50%, rgb(42, 73, 125, 0.9) 100%),
-        url('/assets/images/caffe.png');
+        url('/assets/images/caffe.webp');
     background-size: cover;
     background-position: center top 30%;
     background-repeat: no-repeat;
@@ -466,7 +466,7 @@ h1 {
     left: -10px;
     width: calc(100% + 20px);
     height: calc(100% + 20px);
-    background: url('/assets/images/license.png');
+    background: url('/assets/images/license.webp');
     background-size: cover;
     background-position: center top 30%;
     background-repeat: no-repeat;
