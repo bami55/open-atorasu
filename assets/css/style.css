@@ -319,13 +319,6 @@ h1 {
 .schedule h2 {
     color: #FFE4B5;
     font-size: 2em;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.schedule h3 {
-    color: #FFE4B5;
-    font-size: 1.25em;
     margin-bottom: 30px;
     text-align: center;
 }
