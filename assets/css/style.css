@@ -355,6 +355,88 @@ h1 {
     font-weight: bold;
 }
 
+/* ギャラリーセクション */
+.gallery-section {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 40px;
+    margin: 40px 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gallery-section h2 {
+    color: #FFE4B5;
+    font-size: 2em;
+    margin-bottom: 40px;
+    text-align: center;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-images {
+    position: relative;
+    min-height: 500px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.gallery-image {
+    position: absolute;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-image:nth-child(1) {
+    top: 10px;
+    left: 0%;
+    z-index: 3;
+}
+
+.gallery-image:nth-child(2) {
+    top: 10px;
+    right: 0%;
+    z-index: 2;
+}
+
+.gallery-image:nth-child(3) {
+    top: 0px;
+    left: 35%;
+    z-index: 4;
+}
+
+.gallery-image:nth-child(4) {
+    top: 280px;
+    left: 15%;
+    z-index: 1;
+}
+
+.gallery-image:nth-child(5) {
+    top: 280px;
+    right: 15%;
+    z-index: 5;
+}
+
+.gallery-image-content {
+    background: #FFFFFF;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-image-content-img {
+    width: 240px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.gallery-image-content-title {
+    margin: 2px 0 0 0;
+    font-size: 0.9em;
+    color: #333;
+    text-align: center;
+}
+
 /* スタッフ募集 */
 .recruitment {
     background: rgba(0, 0, 0, 0.3);
@@ -721,4 +803,19 @@ footer {
     .bar:hover .bar-date {
         display: none;
     }
+
+    
+    .gallery-image {
+        position: relative;
+        max-width: fit-content;
+        transition: all 0.3s ease;
+    }
+
+    .gallery-image:nth-child(n) {
+        top: 0px;
+        left: 0%;
+        margin: 0 auto;
+        padding: 10px 0;
+    }
+
 }
