@@ -353,6 +353,11 @@ h1 {
     font-weight: bold;
 }
 
+.schedule-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
 /* ギャラリーセクション */
 .gallery-section {
     background: rgba(0, 0, 0, 0.3);
@@ -433,6 +438,13 @@ h1 {
     font-size: 0.9em;
     color: #333;
     text-align: center;
+}
+
+.gallery-section-text {
+    text-align: center;
+    margin-top: 40px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1em;
 }
 
 /* スタッフ募集 */
@@ -587,6 +599,11 @@ h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.cta-text {
+    font-size: 1.2em;
+    margin-bottom: 20px;
 }
 
 .cta-logo {
@@ -816,4 +833,138 @@ footer {
         padding: 10px 0;
     }
 
+    .gallery-image-content-img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 40px 20px;
+    }
+
+    .open-date {
+        padding: 15px 20px;
+        border-radius: 50px;
+        font-size: 1.5em;
+        margin-top: 0px;
+    }
+
+    .title-icon {
+        display: none;
+    }
+    
+    .concept {
+        padding: 20px;
+    }
+    
+    .concept h2 {
+        font-size: 1.4em;
+    }
+
+    .concept-text {
+        font-size: 0.9em;
+        line-height: 2;
+    }
+
+    .stats-section {
+        padding: 20px;
+        margin: 40px 0;
+    }
+    
+    .stats-section h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .chart-container {
+        padding: 20px 20px 5px 20px;
+    }
+
+    .stats-highlight {
+        padding: 10px;
+        margin: 5px 0;
+        font-size: 1em;
+    }
+
+    .quest-flow {
+        padding: 20px;
+    }
+    
+    .quest-flow h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .schedule {
+        padding: 20px;
+    }
+    
+    .schedule h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .schedule-text {
+        font-size: 0.85em;
+    }
+
+    .gallery-section {
+        padding: 40px 10px;
+    }
+
+    .gallery-section h2 {
+        margin-bottom: 20px;
+    }
+
+    .gallery-section-text {
+        padding: 0 20px;
+        margin-top: 20px;
+        font-size: 1em;
+    }
+
+    .recruitment {
+        padding: 20px;
+        margin: 40px 0;
+    }
+    
+    .recruitment h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .cta {
+        padding: 40px 20px;
+    }
+
+    .cta h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .cta-text {
+        font-size: 1em;
+    }
+
+    .social-section  {
+        padding: 20px 10px;
+    }
+
+    .social-section h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .social-section .social-content {
+        font-size: 1em;
+    }
+
+    .social-section .social-description {
+        font-size: 0.8em;
+    }
+    
+    .social-section .social-hashtags-item {
+        font-size: 1em;
+    }
+    
 }
