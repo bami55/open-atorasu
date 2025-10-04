@@ -238,16 +238,16 @@ h1 {
     filter: brightness(1.2);
 }
 
-.bar:nth-child(1) { height: 29%; animation-delay: 0.1s; }
-.bar:nth-child(2) { height: 38%; animation-delay: 0.2s; }
-.bar:nth-child(3) { height: 68%; animation-delay: 0.3s; }
-.bar:nth-child(4) { height: 59%; animation-delay: 0.4s; }
-.bar:nth-child(5) { height: 69%; animation-delay: 0.5s; }
-.bar:nth-child(6) { height: 65%; animation-delay: 0.6s; }
-.bar:nth-child(7) { height: 52%; animation-delay: 0.7s; }
-.bar:nth-child(8) { height: 68%; animation-delay: 0.8s; }
-.bar:nth-child(9) { height: 90%; animation-delay: 0.9s; }
-.bar:nth-child(10) { height: 100%; animation-delay: 1s; }
+.bar:nth-child(1) { animation-delay: 0.1s; }
+.bar:nth-child(2) { animation-delay: 0.2s; }
+.bar:nth-child(3) { animation-delay: 0.3s; }
+.bar:nth-child(4) { animation-delay: 0.4s; }
+.bar:nth-child(5) { animation-delay: 0.5s; }
+.bar:nth-child(6) { animation-delay: 0.6s; }
+.bar:nth-child(7) { animation-delay: 0.7s; }
+.bar:nth-child(8) { animation-delay: 0.8s; }
+.bar:nth-child(9) { animation-delay: 0.9s; }
+.bar:nth-child(10) { animation-delay: 1s; }
 
 @keyframes slideUp {
     from {
@@ -265,8 +265,9 @@ h1 {
     bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.68em;
+    font-size: 0.85rem;
     color: #FFE4B5;
+    width: max-content;
 }
 
 .bar-value {
