@@ -4,11 +4,6 @@ document.getElementById('current-year').textContent = new Date().getFullYear();
 // グラフ自動生成
 const eventStats = [
   {
-    date: '7/15(火)',
-    value: 63,
-    label: 'プレ5回',
-  },
-  {
     date: '7/23(水)',
     value: 55,
     label: 'プレ6回',
@@ -52,6 +47,11 @@ const eventStats = [
     date: '10/11(土)',
     value: 161,
     label: '第3回',
+  },
+  {
+    date: '10/17(金)',
+    value: 166,
+    label: '第4回',
   },
 ];
 
