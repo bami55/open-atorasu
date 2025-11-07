@@ -121,6 +121,7 @@ h1 {
     border-bottom: 3px solid rgba(255, 255, 255, 0.3);
     padding: 20px 0;
     animation: noticeGlow 3s ease-in-out infinite alternate;
+    display: none;  /* 非表示 */
 }
 
 @keyframes noticeGlow {
