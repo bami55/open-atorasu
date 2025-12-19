@@ -117,16 +117,16 @@ h1 {
 
 /* お知らせセクション */
 .notice-section {
-    background: linear-gradient(90deg, rgba(255, 99, 71, 0.9), rgba(255, 140, 0, 0.9));
-    border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+    background: linear-gradient(90deg, #18303F 0%, #247BA0 100%);
+    border-bottom: 3px solid #1C96C3;
     padding: 20px 0;
     animation: noticeGlow 3s ease-in-out infinite alternate;
-    display: none;  /* 非表示 */
+    /*display: none;  /* 非表示 */
 }
 
 @keyframes noticeGlow {
-    0% { box-shadow: 0 0 5px rgba(255, 99, 71, 0.5); }
-    100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.8); }
+    0% { box-shadow: 0 0 5px #1DA7FF; }
+    100% { box-shadow: 0 0 20px #1473AD; }
 }
 
 .notice-banner {
@@ -165,7 +165,7 @@ h1 {
 
 .notice-text {
     font-size: 1.1em;
-    line-height: 1.6;
+    line-height: 1.8;
     color: #FFFFFF;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
