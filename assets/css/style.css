@@ -121,7 +121,7 @@ h1 {
     border-bottom: 3px solid #1C96C3;
     padding: 20px 0;
     animation: noticeGlow 3s ease-in-out infinite alternate;
-    /*display: none;  /* 非表示 */
+    display: none;  /* 非表示 */
 }
 
 @keyframes noticeGlow {
