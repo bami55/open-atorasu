@@ -91,6 +91,8 @@ var eventStats = [
 // --- Generate Chart ---
 var chartEl = document.getElementById('chart');
 var maxValue = Math.max.apply(null, eventStats.map(function (s) { return s.value; }));
+var minValue = Math.min.apply(null, eventStats.map(function (s) { return s.value; }));
+var baseline = Math.max(0, Math.floor(minValue / 10) * 10 - 20);
 var total = eventStats.reduce(function (sum, s) { return sum + s.value; }, 0);
 var average = Math.round(total / eventStats.length);
 
@@ -98,11 +100,13 @@ eventStats.forEach(function (stat) {
     var bar = document.createElement('div');
     bar.className = 'chart-bar';
 
-    var heightPercent = (stat.value / maxValue) * 100;
+    var heightPercent = ((stat.value - baseline) / (maxValue - baseline)) * 100;
 
     bar.innerHTML =
-        '<span class="chart-bar-value">' + stat.value + '</span>' +
-        '<div class="chart-bar-fill" style="--bar-height: ' + heightPercent + '%;"></div>' +
+        '<div class="chart-bar-track">' +
+            '<span class="chart-bar-value">' + stat.value + '</span>' +
+            '<div class="chart-bar-fill" style="--bar-height: ' + heightPercent + '%;"></div>' +
+        '</div>' +
         '<span class="chart-bar-label">' + stat.label + '</span>';
 
     chartEl.appendChild(bar);
