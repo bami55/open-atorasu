@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <meta property="og:title" content="冒険喫茶ギルドアトラス">
     <meta property="og:description" content="VRChatで冒険者たちの憩いの場が誕生。冒険喫茶ギルドアトラス ― ここは全ての冒険者たちにとっての、新たな物語を紡ぐ場所です。">
     <meta property="og:image" content="https://open-atorasu.pages.dev/assets/images/ogp.webp">
@@ -12,407 +12,348 @@
     <meta name="twitter:title" content="冒険喫茶ギルドアトラス">
     <meta name="twitter:description" content="VRChatで冒険者たちの憩いの場が誕生。冒険喫茶ギルドアトラス ― ここは全ての冒険者たちにとっての、新たな物語を紡ぐ場所です。">
     <meta name="twitter:image" content="https://open-atorasu.pages.dev/assets/images/ogp.webp">
-    
+
     <title>冒険喫茶ギルドアトラス</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+
     <link rel="preload" href="/assets/css/style.css" as="style">
-    <link rel="preload" href="/assets/images/caffe.webp" as="image">
-    <link rel="preload" href="/assets/images/license.webp" as="image">
     <link rel="preload" href="/assets/images/logo_02.webp" as="image">
     <link rel="preload" href="/assets/js/script.js" as="script">
-    
+
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>冒険喫茶ギルドアトラス</h1>
-            <p class="subtitle">VRChatで冒険者たちの憩いの場が誕生</p>
-            <div class="open-date">
-                <div>
-                    <span class="title-icon">🎉 </span>
-                    第18回 2月14日(土) 21:00
-                    <span class="title-icon"> 🎉</span>
-                </div>
+    <!-- Sticky Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <span class="nav-title">冒険喫茶ギルドアトラス</span>
+            <a href="https://vrchat.com/home/group/grp_ce3d8e37-250e-4f52-a172-9f2a7cef458d" class="nav-cta" target="_blank" rel="noopener noreferrer">参加する</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img src="/assets/images/logo_02.webp" alt="冒険喫茶ギルドアトラス" class="hero-logo" width="200" height="200">
+            <h1 class="hero-title">冒険喫茶<br class="sp-only">ギルドアトラス</h1>
+            <p class="hero-subtitle">VRChatで冒険者たちの憩いの場が誕生</p>
+            <div class="hero-event">
+                <span class="hero-event-label">NEXT EVENT</span>
+                <span class="hero-event-date">第18回 2月14日(土) 21:00</span>
             </div>
+            <div class="hero-buttons">
+                <a href="https://vrchat.com/home/group/grp_ce3d8e37-250e-4f52-a172-9f2a7cef458d" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">VRChatで参加する</a>
+                <a href="https://discord.gg/eGJTmZ8p2x" class="btn btn-outline btn-lg" target="_blank" rel="noopener noreferrer">Discordに参加する</a>
+            </div>
+        </div>
+        <div class="hero-scroll-hint">
+            <span>SCROLL</span>
+            <div class="hero-scroll-line"></div>
         </div>
     </header>
 
-    <!-- お知らせセクション -->
-    <section class="notice-section">
-        <div class="container">
-            <div class="notice-banner">
-                <div class="notice-icon">📢</div>
-                <div class="notice-content">
-                    <h3 class="notice-title">ギルドからのお知らせ</h3>
-                    <p class="notice-text">
-                        新年あけましておめでとうございます。
-                    </p>
-                    <p class="notice-text">
-                        年末年始はいかがお過ごしでしたか。
-                    </p>
-                    <p class="notice-text">
-                        2026年も冒険喫茶ギルドアトラスをどうぞよろしくお願いいたします。
-                    </p>
-                    <p class="notice-text">
-                        冒険者の皆さまのご参加を心よりお待ちしております。
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main>
 
-    <div class="container">
-        <section class="concept">
-            <h2><span class="title-icon">⚔️ </span>冒険喫茶ギルドアトラスとは<span class="title-icon"> ☕</span></h2>
-            <div class="concept-text">
-                <p>幾多の冒険を重ね、無事に帰還を果たす。</p>
-                <p>そんな冒険者たちの日常を支えるべく、この冒険者ギルドは存在します。</p>
-                <p>質の高い冒険を持続させるには、確かな情報、研ぎ澄まされた技術、そして何より健やかな心身が不可欠です。</p>
-                <p>&nbsp;</p>
-                <p>最新の情報はクエスト依頼書として。</p>
-                <p>技術の研鑽は充実した講習会にて。</p>
-                <p>心身の休息は併設された喫茶店で。</p>
-                <p>香り高い一杯のお茶と共に、ごゆるりとお過ごしくださいませ。</p>
-                <p>&nbsp;</p>
-                <p>ひとときの静寂に身を委ね、次なる冒険への英気を養う。</p>
-                <p>冒険喫茶ギルドアトラス ― ここは全ての冒険者たちにとっての、新たな物語を紡ぐ場所です。</p>
-            </div>
-        </section>
-
-        <section class="stats-section">
-            <h2>📊 累計参加者数の推移</h2>
-            <div class="chart-container">
-                <div class="chart">
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
+        <!-- コンセプト -->
+        <section class="section" id="concept">
+            <div class="container">
+                <h2 class="section-title fade-up">冒険喫茶ギルドアトラスとは</h2>
+                <div class="concept-block fade-up">
+                    <div class="concept-text">
+                        <p>幾多の冒険を重ね、無事に帰還を果たす。</p>
+                        <p>そんな冒険者たちの日常を支えるべく、この冒険者ギルドは存在します。</p>
+                        <p>質の高い冒険を持続させるには</p>
+                        <p>確かな情報</p>
+                        <p>研ぎ澄まされた技術</p>
+                        <p>そして何より健やかな心身が不可欠です。</p>
                     </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
+                    <div class="concept-divider"></div>
+                    <div class="concept-text">
+                        <p>最新の情報はクエスト依頼書として。</p>
+                        <p>技術の研鑽は充実した講習会にて。</p>
+                        <p>心身の休息は併設された喫茶店で。</p>
+                        <p>香り高い一杯のお茶と共に、ごゆるりとお過ごしくださいませ。</p>
                     </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
+                    <div class="concept-divider"></div>
+                    <div class="concept-text">
+                        <p>ひとときの静寂に身を委ね、次なる冒険への英気を養う。</p>
+                        <p class="concept-highlight">― 冒険喫茶ギルドアトラス ―</p>
+                        <p class="concept-highlight">ここは全ての冒険者たちにとっての、新たな物語を紡ぐ場所です。</p>
                     </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
-                    </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
-                    </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
-                    </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
-                    </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
-                    </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
-                    </div>
-                    <div class="bar">
-                        <span class="bar-date"></span>
-                        <span class="bar-value"></span>
-                        <span class="bar-label"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="stats-highlight">
-                ✨ <span id="average-participants-count"></span>以降は平均<span id="average-participants"></span>名のプレイヤーが参加！<br>
-                多くの冒険者たちが集まる人気イベントに成長しています
-            </div>
-        </section>
-
-        <section class="quest-flow">
-            <h2>🗺️ クエストの流れ</h2>
-            <div class="flow-steps">
-                <div class="flow-step">
-                    <span class="step-number">1</span>
-                    <h3>ライセンス発行</h3>
-                    <p>初回は冒険者ギルドで冒険者登録</p>
-                    <p style="font-size: 0.9em; margin-top: 10px;">※約1週間程度でアバターに組み込めるUnityパッケージ提供</p>
-                </div>
-                <div class="flow-step">
-                    <span class="step-number">2</span>
-                    <h3>クエスト受注</h3>
-                    <p>クエストボードから好きなクエストを選択</p>
-                    <p style="font-size: 0.9em; margin-top: 10px;">※複数人での受注も可能</p>
-                </div>
-                <div class="flow-step">
-                    <span class="step-number">3</span>
-                    <h3>冒険開始</h3>
-                    <p>対象ワールドに移動して依頼内容を達成</p>
-                </div>
-                <div class="flow-step">
-                    <span class="step-number">4</span>
-                    <h3>達成報告</h3>
-                    <p>Xに写真をポストして達成報告</p>
-                    <p style="font-size: 0.9em; margin-top: 10px;">#クエスト報告_アトラス</p>
                 </div>
             </div>
         </section>
 
-        <section class="schedule">
-            <h2>📅 開催日程</h2>
-            <div class="schedule-items">
-                <div class="schedule-item">
-                    <div class="schedule-day">第1・3金曜日</div>
-                    <div class="schedule-time">22:00 〜 24:00</div>
+        <!-- お知らせ -->
+        <section class="section notice" id="notice" style="display: none;">
+            <div class="container">
+                <h2 class="section-title fade-up">お知らせ</h2>
+                <div class="notice-inner fade-up">
+                    <p>新年あけましておめでとうございます。</p>
+                    <p>年末年始はいかがお過ごしでしたか。</p>
+                    <p>2026年も冒険喫茶ギルドアトラスをどうぞよろしくお願いいたします。</p>
+                    <p>冒険者の皆さまのご参加を心よりお待ちしております。</p>
                 </div>
-                <div class="schedule-item">
-                    <div class="schedule-day">第2・4土曜日</div>
-                    <div class="schedule-time">21:00 〜 23:00</div>
-                </div>
-            </div>
-            <div class="schedule-text">
-                ※開催日・時間帯は変更する場合がございます
             </div>
         </section>
 
-        <section class="gallery-section">
-            <h2>📸 第1回の様子</h2>
-            
-            <div class="gallery-images">
-                <!-- 写真1 -->
-                <div class="gallery-image" onmouseover="this.style.transform='rotate(-5deg) scale(1.1)'; this.style.zIndex='10'" onmouseout="this.style.transform='rotate(0deg) scale(1)'; this.style.zIndex='3'">
-                    <div class="gallery-image-content">
-                        <img src="/assets/images/event_photo_1.webp" alt="冒険者ギルド受付の様子" class="gallery-image-content-img" onerror="this.style.background='linear-gradient(135deg, #2A497D, #007544)'; this.style.display='block';">
-                        <p class="gallery-image-content-title">冒険者ギルド受付</p>
+        <!-- クエストの流れ -->
+        <section class="section" id="quest-flow">
+            <div class="container">
+                <h2 class="section-title fade-up">クエストの流れ</h2>
+                <div class="steps-grid">
+                    <div class="step-card fade-up">
+                        <span class="step-number">01</span>
+                        <h3 class="step-title">ライセンス発行</h3>
+                        <p class="step-desc">初回は冒険者ギルドで冒険者登録</p>
+                        <small class="step-note">※約1週間程度でアバターに組み込めるUnityパッケージ提供</small>
                     </div>
-                </div>
-
-                <!-- 写真2 -->
-                <div class="gallery-image" onmouseover="this.style.transform='rotate(8deg) scale(1.1)'; this.style.zIndex='10'" onmouseout="this.style.transform='rotate(0deg) scale(1)'; this.style.zIndex='2'">
-                    <div class="gallery-image-content">
-                        <img src="/assets/images/event_photo_2.webp" alt="喫茶スペースの様子" class="gallery-image-content-img" onerror="this.style.background='linear-gradient(135deg, #2A7C8C, #2A497D)'; this.style.display='block';">
-                        <p class="gallery-image-content-title">憩いの喫茶スペース</p>
+                    <div class="step-card fade-up">
+                        <span class="step-number">02</span>
+                        <h3 class="step-title">クエスト受注</h3>
+                        <p class="step-desc">クエストボードから好きなクエストを選択</p>
+                        <small class="step-note">※複数人での受注も可能</small>
                     </div>
-                </div>
-
-                <!-- 写真3 -->
-                <div class="gallery-image" onmouseover="this.style.transform='rotate(-3deg) scale(1.1)'; this.style.zIndex='10'" onmouseout="this.style.transform='rotate(0deg) scale(1)'; this.style.zIndex='4'">
-                    <div class="gallery-image-content">
-                        <img src="/assets/images/event_photo_3.webp" alt="クエストボードを見る冒険者たち" class="gallery-image-content-img" onerror="this.style.background='linear-gradient(135deg, #007544, #2A7C8C)'; this.style.display='block';">
-                        <p class="gallery-image-content-title">クエスト選びの風景</p>
+                    <div class="step-card fade-up">
+                        <span class="step-number">03</span>
+                        <h3 class="step-title">冒険開始</h3>
+                        <p class="step-desc">対象ワールドに移動して依頼内容を達成</p>
                     </div>
-                </div>
-
-                <!-- 写真4 -->
-                <div class="gallery-image" onmouseover="this.style.transform='rotate(6deg) scale(1.1)'; this.style.zIndex='10'" onmouseout="this.style.transform='rotate(0deg) scale(1)'; this.style.zIndex='1'">
-                    <div class="gallery-image-content">
-                        <img src="/assets/images/event_photo_4.webp" alt="ライセンスカード発行の瞬間" class="gallery-image-content-img" onerror="this.style.background='linear-gradient(135deg, #2A497D, #2A7C8C)'; this.style.display='block';">
-                        <p class="gallery-image-content-title">初めてのライセンス発行</p>
-                    </div>
-                </div>
-
-                <!-- 写真5 -->
-                <div class="gallery-image" onmouseover="this.style.transform='rotate(-7deg) scale(1.1)'; this.style.zIndex='10'" onmouseout="this.style.transform='rotate(0deg) scale(1)'; this.style.zIndex='5'">
-                    <div class="gallery-image-content">
-                        <img src="/assets/images/event_photo_5.webp" alt="集合写真" class="gallery-image-content-img" onerror="this.style.background='linear-gradient(135deg, #2A7C8C, #007544)'; this.style.display='block';">
-                        <p class="gallery-image-content-title">冒険者たちの集合写真</p>
+                    <div class="step-card fade-up">
+                        <span class="step-number">04</span>
+                        <h3 class="step-title">達成報告</h3>
+                        <p class="step-desc">Xに写真をポストして達成報告</p>
+                        <small class="step-note">#クエスト報告_アトラス</small>
                     </div>
                 </div>
             </div>
-
-            <p class="gallery-section-text">
-                第1回は93名の冒険者が参加し、和気あいあいとした雰囲気でギルドがオープンしました！<br>
-            </p>
         </section>
 
-        <section class="world-recruit">
-            <div class="world-recruit-header">
-                <h2>🌍 クエスト用ワールド募集</h2>
-                <p class="world-recruit-subtitle">〜 まだ見ぬ世界への扉を開こう 〜</p>
+        <!-- 開催日程 -->
+        <section class="section" id="schedule">
+            <div class="container">
+                <h2 class="section-title fade-up">開催日程</h2>
+                <div class="schedule-cards">
+                    <div class="schedule-card fade-up">
+                        <div class="schedule-day">第1・3金曜日</div>
+                        <div class="schedule-time">22:00 <span class="schedule-dash">—</span> 24:00</div>
+                    </div>
+                    <div class="schedule-card fade-up">
+                        <div class="schedule-day">第2・4土曜日</div>
+                        <div class="schedule-time">21:00 <span class="schedule-dash">—</span> 23:00</div>
+                    </div>
+                </div>
+                <p class="schedule-note fade-up">※開催日・時間帯は変更する場合がございます</p>
             </div>
-            
-            <div class="world-recruit-content">
-                <div class="world-recruit-icon">🗺️</div>
-                <div class="world-recruit-text">
+        </section>
+
+        <!-- 累計参加者数の推移 -->
+        <section class="section" id="stats">
+            <div class="container">
+                <h2 class="section-title fade-up">累計参加者数の推移</h2>
+                <div class="chart-container fade-up">
+                    <div class="chart" id="chart"></div>
+                </div>
+                <div class="stats-summary fade-up">
+                    <span id="average-participants-count"></span>以降は平均<strong id="average-participants"></strong>名のプレイヤーが参加！<br>
+                    多くの冒険者たちが集まる人気イベントに成長しています
+                </div>
+            </div>
+        </section>
+
+        <!-- ギャラリー -->
+        <section class="section" id="gallery">
+            <div class="container">
+                <h2 class="section-title fade-up">第1回の様子</h2>
+                <div class="gallery-mosaic">
+                    <div class="gallery-item gallery-item--large fade-up">
+                        <img src="/assets/images/event_photo_1.webp" alt="冒険者ギルド受付の様子" loading="lazy">
+                        <div class="gallery-label">冒険者ギルド受付</div>
+                    </div>
+                    <div class="gallery-item fade-up">
+                        <img src="/assets/images/event_photo_2.webp" alt="喫茶スペースの様子" loading="lazy">
+                        <div class="gallery-label">憩いの喫茶スペース</div>
+                    </div>
+                    <div class="gallery-item fade-up">
+                        <img src="/assets/images/event_photo_3.webp" alt="クエストボードを見る冒険者たち" loading="lazy">
+                        <div class="gallery-label">クエスト選びの風景</div>
+                    </div>
+                    <div class="gallery-item fade-up">
+                        <img src="/assets/images/event_photo_4.webp" alt="ライセンスカード発行の瞬間" loading="lazy">
+                        <div class="gallery-label">初めてのライセンス発行</div>
+                    </div>
+                    <div class="gallery-item fade-up">
+                        <img src="/assets/images/event_photo_5.webp" alt="集合写真" loading="lazy">
+                        <div class="gallery-label">冒険者たちの集合写真</div>
+                    </div>
+                </div>
+                <p class="gallery-note fade-up">
+                    第1回は93名の冒険者が参加し、和気あいあいとした雰囲気でギルドがオープンしました！
+                </p>
+            </div>
+        </section>
+
+        <!-- クエスト用ワールド募集 -->
+        <section class="section" id="world-recruit">
+            <div class="container">
+                <h2 class="section-title fade-up">クエスト用ワールド募集</h2>
+                <p class="section-lead fade-up">まだ見ぬ世界への扉を開こう</p>
+                <div class="world-intro fade-up">
                     <p>当ギルドのクエスト課では、日夜クエストの作成業務を進めております。</p>
                     <p>冒険者様の皆様には、<strong>もっと多くの世界へと羽ばたいていただきたい！</strong></p>
-                    <p>&nbsp;</p>
-                    <p>そこで！<br>
-                    <span class="highlight-text">冒険者</span>・<span class="highlight-text">吟遊詩人</span> や <span class="highlight-text">神々（World製作者）</span>の皆様、<br>
+                    <p><span class="text-accent">冒険者</span>・<span class="text-accent">吟遊詩人</span> や <span class="text-accent">神々（World製作者）</span>の皆様、<br>
                     まだ見ぬ新たなる世界の情報をお聞かせください！</p>
                 </div>
-            </div>
-
-            <div class="world-recruit-examples">
-                <div class="world-recruit-example">
-                    <div class="example-image">
-                        <img src="/assets/images/quest_1.webp" alt="冒険に最適なワールド" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
-                        <span class="example-icon-overlay">⚔️</span>
+                <div class="world-grid">
+                    <div class="world-card fade-up">
+                        <div class="world-card-img">
+                            <img src="/assets/images/quest_1.webp" alt="冒険に最適なワールド" loading="lazy">
+                        </div>
+                        <span class="world-card-label">冒険に最適なワールド</span>
                     </div>
-                    <div class="example-label">冒険に最適なワールド</div>
-                </div>
-                <div class="world-recruit-example">
-                    <div class="example-image">
-                        <img src="/assets/images/quest_2.webp" alt="探索しがいのあるダンジョン" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
-                        <span class="example-icon-overlay">🏰</span>
+                    <div class="world-card fade-up">
+                        <div class="world-card-img">
+                            <img src="/assets/images/quest_2.webp" alt="探索しがいのあるダンジョン" loading="lazy">
+                        </div>
+                        <span class="world-card-label">探索しがいのあるダンジョン</span>
                     </div>
-                    <div class="example-label">探索しがいのあるダンジョン</div>
-                </div>
-                <div class="world-recruit-example">
-                    <div class="example-image">
-                        <img src="/assets/images/quest_3.webp" alt="絶景スポット" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
-                        <span class="example-icon-overlay">🌄</span>
+                    <div class="world-card fade-up">
+                        <div class="world-card-img">
+                            <img src="/assets/images/quest_3.webp" alt="絶景スポット" loading="lazy">
+                        </div>
+                        <span class="world-card-label">絶景スポット</span>
                     </div>
-                    <div class="example-label">絶景スポット</div>
-                </div>
-                <div class="world-recruit-example">
-                    <div class="example-image">
-                        <img src="/assets/images/quest_4.webp" alt="ミニゲームワールド" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
-                        <span class="example-icon-overlay">🎮</span>
+                    <div class="world-card fade-up">
+                        <div class="world-card-img">
+                            <img src="/assets/images/quest_4.webp" alt="ミニゲームワールド" loading="lazy">
+                        </div>
+                        <span class="world-card-label">ミニゲームワールド</span>
                     </div>
-                    <div class="example-label">ミニゲームワールド</div>
                 </div>
-            </div>
-
-            <div class="world-recruit-cta">
-                <a href="https://forms.gle/nfSAkadbzBEH2fyu8" class="cta-button" target="_blank">
-                    <span class="button-icon">📝</span>
-                    ワールド情報を送る
-                </a>
-                <p class="world-recruit-note">※アニメなどの版権が危ういワールドはご遠慮ください</p>
+                <div class="world-cta fade-up">
+                    <a href="https://forms.gle/nfSAkadbzBEH2fyu8" class="btn btn-success btn-lg" target="_blank" rel="noopener noreferrer">ワールド情報を送る</a>
+                    <p class="world-note">※アニメなどの版権が危ういワールドはご遠慮ください</p>
+                </div>
             </div>
         </section>
 
-        <section class="recruitment">
-            <h2>👥 ギルド職員募集中！</h2>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <p>一緒に冒険者をサポートする仲間を募集しています</p>
-                <p><a href="https://x.com/Guild_Atorasu" class="link" target="_blank">公式XのDM</a> にお問い合わせください</p>
-            </div>
-            
-            <div class="departments">
-                <div class="department">
-                    <h3>受付課</h3>
-                    <ul class="department-tasks">
-                        <li>ライセンスカードの発行や受け渡し</li>
-                        <li>クエスト受注の対応</li>
-                    </ul>
-                    <div class="recommend">
-                        <div class="recommend-title">こんな人におすすめ</div>
-                        <p>人と話すのが好きで、初心者の冒険者を温かく迎えたい</p>
+        <!-- ギルド職員募集 -->
+        <section class="section" id="staff-recruit">
+            <div class="container">
+                <h2 class="section-title fade-up">ギルド職員募集中！</h2>
+                <div class="section-desc fade-up">
+                    <p>一緒に冒険者をサポートする仲間を募集しています</p>
+                    <p><a href="https://x.com/Guild_Atorasu" class="text-link" target="_blank" rel="noopener noreferrer">公式XのDM</a> にお問い合わせください</p>
+                </div>
+                <div class="dept-grid">
+                    <div class="dept-card fade-up">
+                        <h3 class="dept-name">受付課</h3>
+                        <ul class="dept-tasks">
+                            <li>ライセンスカードの発行や受け渡し</li>
+                            <li>クエスト受注の対応</li>
+                        </ul>
+                        <div class="dept-fit">
+                            <span class="dept-fit-label">こんな人におすすめ</span>
+                            <p>人と話すのが好きで、初心者の冒険者を温かく迎えたい</p>
+                        </div>
+                    </div>
+                    <div class="dept-card fade-up">
+                        <h3 class="dept-name">喫茶課</h3>
+                        <ul class="dept-tasks">
+                            <li>冒険者ギルド内でドリンクやフードの提供</li>
+                        </ul>
+                        <div class="dept-fit">
+                            <span class="dept-fit-label">こんな人におすすめ</span>
+                            <p>おもてなしが好きで、冒険者に癒しの時間を提供したい</p>
+                        </div>
+                    </div>
+                    <div class="dept-card dept-card--closed fade-up">
+                        <div class="dept-header">
+                            <h3 class="dept-name">クエスト課</h3>
+                            <span class="dept-closed-badge">募集停止中</span>
+                        </div>
+                        <ul class="dept-tasks">
+                            <li>クエストの作成</li>
+                            <li>ワールドの開拓・調査</li>
+                        </ul>
+                        <div class="dept-fit">
+                            <span class="dept-fit-label">こんな人におすすめ</span>
+                            <p>VRChatの様々なワールドを探索し、面白い冒険を企画したい</p>
+                        </div>
+                    </div>
+                    <div class="dept-card dept-card--closed fade-up">
+                        <div class="dept-header">
+                            <h3 class="dept-name">広報課</h3>
+                            <span class="dept-closed-badge">募集停止中</span>
+                        </div>
+                        <ul class="dept-tasks">
+                            <li>SNSや他のコミュニティ・イベントで宣伝活動</li>
+                            <li>イベントの様子を写真撮影</li>
+                            <li>冒険者向けDiscordサーバーの運用</li>
+                        </ul>
+                        <div class="dept-fit">
+                            <span class="dept-fit-label">こんな人におすすめ</span>
+                            <p>SNS発信が得意で、イベントの魅力を多くの人に伝えたい</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="department">
-                    <h3>喫茶課</h3>
-                    <ul class="department-tasks">
-                        <li>冒険者ギルド内でドリンクやフードの提供</li>
-                    </ul>
-                    <div class="recommend">
-                        <div class="recommend-title">こんな人におすすめ</div>
-                        <p>おもてなしが好きで、冒険者に癒しの時間を提供したい</p>
-                    </div>
-                </div>
-
-                <div class="department">
-                    <h3>クエスト課</h3>
-                    <ul class="department-tasks">
-                        <li>クエストの作成</li>
-                        <li>ワールドの開拓・調査</li>
-                    </ul>
-                    <div class="recommend">
-                        <div class="recommend-title">こんな人におすすめ</div>
-                        <p>VRChatの様々なワールドを探索し、面白い冒険を企画したい</p>
-                    </div>
-                </div>
-
-                <div class="department">
-                    <h3>広報課</h3>
-                    <ul class="department-tasks">
-                        <li>SNSや他のコミュニティ・イベントで宣伝活動</li>
-                        <li>イベントの様子を写真撮影</li>
-                        <li>冒険者向けDiscordサーバーの運用</li>
-                    </ul>
-                    <div class="recommend">
-                        <div class="recommend-title">こんな人におすすめ</div>
-                        <p>SNS発信が得意で、イベントの魅力を多くの人に伝えたい</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="cta">
-            <h2>冒険者の皆様のご来訪をお待ちしております</h2>
-            <p class="cta-text">VRChatで始まる、新たな冒険の物語——</p>
-            <img src="/assets/images/logo_02.webp" alt="冒険喫茶ギルドアトラス" class="cta-logo" />
-            <p style="font-size: 0.9em; margin-bottom: 20px;">ロゴ作成 <a href="https://x.com/nkmy9_8" class="link" target="_blank">二古宮</a></p>
-            <div class="cta-buttons">
-                <a href="https://vrchat.com/home/group/grp_ce3d8e37-250e-4f52-a172-9f2a7cef458d" class="cta-button" target="_blank">VRChatで参加する</a>
-                <a href="https://discord.gg/eGJTmZ8p2x" class="cta-button" target="_blank">Discordに参加する</a>
             </div>
         </section>
 
-        <section class="social-section">
-            <h2>📢 最新情報はXで配信中</h2>
-            
-            <div class="social-content">
-                <div class="social-item">
-                    <a href="https://x.com/Guild_Atorasu" class="social-link" target="_blank" rel="noopener noreferrer">
-                        <div class="social-icon">𝕏</div>
-                    </a>
-                    <div class="social-text">
-                        <div class="social-id">@Guild_Atorasu</div>
-                        <div class="social-name">冒険喫茶ギルドアトラス公式アカウント</div>
-                    </div>
+        <!-- CTA -->
+        <section class="section cta-section" id="cta">
+            <div class="cta-bg-img"></div>
+            <div class="cta-bg-overlay"></div>
+            <div class="container cta-content">
+                <h2 class="cta-heading fade-up">冒険者の皆様のご来訪を<br>お待ちしております</h2>
+                <p class="cta-sub fade-up">VRChatで始まる、新たな冒険の物語</p>
+                <img src="/assets/images/logo_02.webp" alt="冒険喫茶ギルドアトラス" class="cta-logo fade-up" width="200" height="200">
+                <p class="cta-credit fade-up">ロゴ作成 <a href="https://x.com/nkmy9_8" class="text-link text-link--light" target="_blank" rel="noopener noreferrer">二古宮</a></p>
+                <div class="cta-buttons fade-up">
+                    <a href="https://vrchat.com/home/group/grp_ce3d8e37-250e-4f52-a172-9f2a7cef458d" class="btn btn-primary btn-xl" target="_blank" rel="noopener noreferrer">VRChatで参加する</a>
+                    <a href="https://discord.gg/eGJTmZ8p2x" class="btn btn-outline-light btn-xl" target="_blank" rel="noopener noreferrer">Discordに参加する</a>
                 </div>
-                
-                <p class="social-description">
-                    イベント開催情報、ギルドからのお知らせ、<br>
-                    冒険者の活動報告などを随時配信しています。
-                </p>
-                
-                <div class="social-hashtags">
-                    <div class="social-hashtags-title">🏷️ ハッシュタグ</div>
-                    <div class="social-hashtags-item">#冒険喫茶ギルドアトラス</div>
-                    <div class="social-hashtags-item">#クエスト報告_アトラス</div>
-                </div>
-                
-                <a
-                    href="https://x.com/intent/follow?screen_name=Guild_Atorasu"
-                    class="social-follow-button"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(29, 161, 242, 0.4)'"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(29, 161, 242, 0.3)'"
-                >
-                    Xでフォローする
-                </a>
             </div>
         </section>
 
-    </div>
+        <!-- SNS -->
+        <section class="section" id="social">
+            <div class="container">
+                <h2 class="section-title fade-up">最新情報はXで配信中</h2>
+                <div class="social-card fade-up">
+                    <div class="social-profile">
+                        <a href="https://x.com/Guild_Atorasu" class="social-icon" target="_blank" rel="noopener noreferrer">
+                            <span class="social-x">𝕏</span>
+                        </a>
+                        <div class="social-meta">
+                            <span class="social-handle">@Guild_Atorasu</span>
+                            <span class="social-name">冒険喫茶ギルドアトラス公式アカウント</span>
+                        </div>
+                    </div>
+                    <p class="social-desc">
+                        イベント開催情報、ギルドからのお知らせ、<br>
+                        冒険者の活動報告などを随時配信しています。
+                    </p>
+                    <div class="social-tags">
+                        <span class="social-tag">#冒険喫茶ギルドアトラス</span>
+                        <span class="social-tag">#クエスト報告_アトラス</span>
+                    </div>
+                    <a href="https://x.com/intent/follow?screen_name=Guild_Atorasu" class="btn btn-x" target="_blank" rel="noopener noreferrer">Xでフォローする</a>
+                </div>
+            </div>
+        </section>
 
-    <footer>
-        <p class="footer-text">
-            © <span id="current-year"></span> 冒険喫茶ギルドアトラス
-        </p>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">&copy; <span id="current-year"></span> 冒険喫茶ギルドアトラス</p>
+        </div>
     </footer>
 
     <script src="/assets/js/script.js"></script>
