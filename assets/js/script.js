@@ -2,9 +2,73 @@
    冒険喫茶ギルドアトラス - Script
    ============================================ */
 
+// --- Hero Slideshow ---
+var heroImages = [
+    '/assets/images/hero/hero001.webp',
+    '/assets/images/hero/hero002.webp',
+    '/assets/images/hero/hero003.webp',
+    '/assets/images/hero/hero004.webp',
+    '/assets/images/hero/hero005.webp',
+    '/assets/images/hero/hero006.webp',
+    '/assets/images/hero/hero007.webp',
+    '/assets/images/hero/hero008.webp',
+    '/assets/images/hero/hero009.webp',
+    '/assets/images/hero/hero010.webp',
+    '/assets/images/hero/hero011.webp',
+    '/assets/images/hero/hero012.webp',
+    '/assets/images/hero/hero013.webp',
+    '/assets/images/hero/hero014.webp',
+    '/assets/images/hero/hero015.webp',
+    '/assets/images/hero/hero016.webp',
+];
+
+// Shuffle (Fisher-Yates)
+for (var i = heroImages.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = heroImages[i];
+    heroImages[i] = heroImages[j];
+    heroImages[j] = tmp;
+}
+
+var heroSlideA = document.getElementById('hero-slide-a');
+var heroSlideB = document.getElementById('hero-slide-b');
+var currentHeroIndex = 0;
+
+heroSlideA.style.backgroundImage = 'url(' + heroImages[currentHeroIndex] + ')';
+heroSlideA.classList.add('hero-slide--active');
+heroSlideA.classList.add('hero-slide--zooming');
+
+var activeHeroSlide = heroSlideA;
+var inactiveHeroSlide = heroSlideB;
+
 // --- Page Load Animation ---
 window.addEventListener('load', function () {
     document.body.classList.add('loaded');
+
+    // Start slideshow after initial load animation
+    setInterval(function () {
+        currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
+
+        // Preload next image, then cross-fade
+        var preload = new Image();
+        preload.onload = function () {
+            inactiveHeroSlide.style.backgroundImage = 'url(' + heroImages[currentHeroIndex] + ')';
+
+            // Restart zoom animation on new slide (reflow trick)
+            inactiveHeroSlide.classList.remove('hero-slide--zooming');
+            void inactiveHeroSlide.offsetWidth;
+            inactiveHeroSlide.classList.add('hero-slide--zooming');
+
+            // Cross-fade (old slide keeps zooming while fading out)
+            inactiveHeroSlide.classList.add('hero-slide--active');
+            activeHeroSlide.classList.remove('hero-slide--active');
+
+            var temp = activeHeroSlide;
+            activeHeroSlide = inactiveHeroSlide;
+            inactiveHeroSlide = temp;
+        };
+        preload.src = heroImages[currentHeroIndex];
+    }, 6000);
 });
 
 // --- Current Year ---
@@ -121,16 +185,19 @@ if ('IntersectionObserver' in window) {
         chartObserver.observe(chartEl);
     }
 
-    // --- Sticky Navigation ---
+    // --- Sticky Navigation & Back to Top ---
     var nav = document.getElementById('nav');
     var hero = document.getElementById('hero');
+    var backToTop = document.getElementById('back-to-top');
 
     var navObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (!entry.isIntersecting) {
                 nav.classList.add('visible');
+                backToTop.classList.add('visible');
             } else {
                 nav.classList.remove('visible');
+                backToTop.classList.remove('visible');
             }
         });
     }, {

@@ -337,16 +337,23 @@ h1, h2, h3 {
     background: var(--hero-bg);
 }
 
-.hero-bg {
+.hero-slide {
     position: absolute;
     inset: 0;
-    background: url('/assets/images/caffe.webp') center / cover no-repeat;
-    transform: scale(1.05);
-    transition: transform 8s ease-out;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1);
+    transition: opacity 1.5s ease;
 }
 
-body.loaded .hero-bg {
-    transform: scale(1);
+.hero-slide--active {
+    opacity: 1;
+}
+
+.hero-slide--zooming {
+    animation: hero-zoom 8s ease-out forwards;
 }
 
 .hero-overlay {
@@ -1180,7 +1187,47 @@ body.loaded .hero-scroll-hint {
     letter-spacing: 0.02em;
 }
 
+/* --- Back to Top --- */
+.back-to-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 8000;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(0, 167, 225, 0.3);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-top:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 167, 225, 0.4);
+}
+
 /* --- Keyframe Animations --- */
+@keyframes hero-zoom {
+    from { transform: scale(1.08); }
+    to { transform: scale(1); }
+}
+
 @keyframes scroll-pulse {
     0%, 100% { transform: scaleY(0.4); opacity: 0.2; }
     50% { transform: scaleY(1); opacity: 0.8; }
@@ -1233,6 +1280,19 @@ body.loaded .hero-scroll-hint {
     .fade-up {
         opacity: 1;
         transform: none;
+    }
+
+    .hero-slide {
+        opacity: 0;
+        transform: none;
+    }
+
+    .hero-slide--active {
+        opacity: 1;
+    }
+
+    .hero-slide--zooming {
+        animation: none !important;
     }
 
     .hero-logo,
