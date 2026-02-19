@@ -167,6 +167,91 @@
             </div>
         </section>
 
+        <!-- 冒険者コミュニティの現在地 -->
+        <section class="section" id="adventurer-proof">
+            <div class="container">
+                <h2 class="section-title fade-up">冒険者コミュニティの現在地</h2>
+                <p class="section-lead fade-up">数字でわかる、ギルドアトラスの賑わい</p>
+
+                <div class="adv-kpi-grid">
+                    <article class="adv-kpi-card fade-up">
+                        <p class="adv-kpi-label">登録冒険者数</p>
+                        <p class="adv-kpi-value"><span id="adv-total">--</span><span class="adv-kpi-unit">名</span></p>
+                        <p class="adv-kpi-note">ギルド在籍の冒険者数</p>
+                    </article>
+                    <article class="adv-kpi-card fade-up">
+                        <p class="adv-kpi-label">直近30日の新規登録</p>
+                        <p class="adv-kpi-value"><span id="adv-recent30">--</span><span class="adv-kpi-unit">名</span></p>
+                        <p class="adv-kpi-note">続々と冒険者が増加中</p>
+                    </article>
+                    <article class="adv-kpi-card fade-up">
+                        <p class="adv-kpi-label">職業バリエーション</p>
+                        <p class="adv-kpi-value"><span id="adv-job-variety">--</span><span class="adv-kpi-unit">種</span></p>
+                        <p class="adv-kpi-note">個性豊かな冒険者たち</p>
+                    </article>
+                    <article class="adv-kpi-card fade-up">
+                        <p class="adv-kpi-label">ランクE ～ F</p>
+                        <p class="adv-kpi-value"><span id="adv-beginner-ratio">--</span><span class="adv-kpi-unit">%</span></p>
+                        <p class="adv-kpi-note">初級冒険者が中心</p>
+                    </article>
+                </div>
+
+                <div class="adv-growth-card fade-up">
+                    <h3 class="adv-subtitle">月別登録ペース（直近6か月）</h3>
+                    <div class="adv-growth-chart" id="adv-growth-chart" aria-label="月別登録ペース"></div>
+                    <p class="adv-growth-note" id="adv-growth-note">データを集計中です…</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- あなたらしい冒険で参加できる -->
+        <section class="section" id="adventurer-style">
+            <div class="container">
+                <div class="adv-style-frame">
+                    <header class="adv-style-header fade-up">
+                        <h2 class="section-title adv-style-title">その職業、ギルド公認。</h2>
+                        <p class="adv-style-lead">
+                            数字の先にあるのは、<span class="text-accent"><span id="adv-style-job-count">--</span>通りのアイデンティティ</span>と、<span class="text-accent">あなたの居場所。</span><br>
+                            履歴書には書けない職業</span>で、今日も冒険に出かけよう。
+                        </p>
+                    </header>
+
+                    <div class="adv-style-grid">
+                        <article class="adv-panel adv-panel--jobs fade-up">
+                            <div class="adv-panel-head">
+                                <h3 class="adv-panel-title">冒険者たちの職業</h3>
+                                <p class="adv-panel-copy">定番から個性派まで、自由な職業で冒険に参加できます。</p>
+                            </div>
+                            <div class="adv-cloud-stage">
+                                <div class="adv-cloud-halo" aria-hidden="true"></div>
+                                <div class="adv-job-cloud" id="adv-job-cloud" aria-live="polite" aria-label="職業ワードクラウド">
+                                    <span class="adv-job-empty">データを集計中です…</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="adv-panel adv-panel--ranks fade-up">
+                            <div class="adv-panel-head">
+                                <h3 class="adv-panel-title">ランク分布</h3>
+                                <p class="adv-panel-copy" id="adv-beginner-copy">ランク分布構成を集計中です…</p>
+                            </div>
+                            <div class="adv-rank-stage">
+                                <div class="adv-rank-bars" id="adv-rank-bars"></div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="adv-conversion-banner fade-up">
+                        <p class="adv-conversion-lead">はみ出した個性が、ここでは輝く。</p>
+                        <p class="adv-conversion-sub">
+                            <span class="text-accent">はじめての方</span>も、<span class="text-accent">復帰勢</span>も、<span class="text-accent">ベテラン</span>も。<br>
+                            冒険喫茶ギルドアトラスは<span class="text-accent">「一緒に冒険を楽しめる場」</span>を提供いたします。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ギャラリー -->
         <section class="section" id="gallery">
             <div class="container">
