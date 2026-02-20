@@ -2,6 +2,13 @@
    冒険喫茶ギルドアトラス - Script
    ============================================ */
 
+// --- Utilities ---
+function toSafeInt(value) {
+    var n = parseInt(value, 10);
+    if (isNaN(n)) return 0;
+    return n;
+}
+
 // --- Hero Slideshow ---
 var heroImages = [
     '/assets/images/hero/hero001.webp',
@@ -128,17 +135,14 @@ var advCloudResizeTimer = null;
 var advCloudRenderToken = 0;
 var advCloudRenderTask = null;
 
-function advCloudNowMs() {
-    if (window.performance && typeof window.performance.now === 'function') {
-        return window.performance.now();
-    }
-    return new Date().getTime();
-}
+var advCloudNowMs = (window.performance && typeof window.performance.now === 'function')
+    ? function () { return performance.now(); }
+    : function () { return new Date().getTime(); };
 
 function advCloudCancelScheduledTask() {
     if (!advCloudRenderTask) return;
-    if (advCloudRenderTask.type === 'raf' && window.cancelAnimationFrame) {
-        window.cancelAnimationFrame(advCloudRenderTask.id);
+    if (advCloudRenderTask.type === 'raf') {
+        cancelAnimationFrame(advCloudRenderTask.id);
     } else {
         clearTimeout(advCloudRenderTask.id);
     }
@@ -147,10 +151,10 @@ function advCloudCancelScheduledTask() {
 
 function advCloudScheduleTask(fn) {
     advCloudCancelScheduledTask();
-    if (window.requestAnimationFrame && window.cancelAnimationFrame) {
+    if (window.requestAnimationFrame) {
         advCloudRenderTask = {
             type: 'raf',
-            id: window.requestAnimationFrame(function () {
+            id: requestAnimationFrame(function () {
                 advCloudRenderTask = null;
                 fn();
             })
@@ -163,6 +167,30 @@ function advCloudScheduleTask(fn) {
                 fn();
             }, 16)
         };
+    }
+}
+
+// --- UI Mutation Batching ---
+// Observer/タイマー由来のDOM更新を単一rAFフレームに集約し、Style再計算の多重化を防止
+var uiMutationQueue = [];
+var uiMutationRafId = null;
+
+function flushUiMutations() {
+    uiMutationRafId = null;
+    var queue = uiMutationQueue;
+    uiMutationQueue = [];
+    for (var qi = 0; qi < queue.length; qi++) {
+        queue[qi]();
+    }
+}
+
+function enqueueUiMutation(fn) {
+    uiMutationQueue.push(fn);
+    if (uiMutationRafId) return;
+    if (window.requestAnimationFrame) {
+        uiMutationRafId = requestAnimationFrame(flushUiMutations);
+    } else {
+        uiMutationRafId = setTimeout(flushUiMutations, 0);
     }
 }
 
@@ -404,7 +432,7 @@ function renderGrowthChart(monthCountMap) {
 
     setTimeout(function () {
         growthChartEl.classList.add('is-ready');
-    }, 60);
+    }, 200);
 }
 
 function renderAdventurerProofSection(summary) {
@@ -426,10 +454,10 @@ function renderAdventurerProofSection(summary) {
             growthNoteEl.textContent = '登録データを準備中です。';
         } else if (summary.prev3Count > 0) {
             var sign = summary.growthRate > 0 ? '+' : '';
-            growthNoteEl.textContent =
-                '直近3か月で' + summary.recent3Count + '名が新規登録（前3か月比 ' + sign + summary.growthRate + '%）';
+            growthNoteEl.innerHTML =
+                '直近3か月で' + toSafeInt(summary.recent3Count) + '名が新規登録<br class="sp-only">（前3か月比 ' + sign + toSafeInt(summary.growthRate) + '%）';
         } else {
-            growthNoteEl.textContent = '直近3か月で' + summary.recent3Count + '名が新規登録。コミュニティが拡大中です。';
+            growthNoteEl.innerHTML = '直近3か月で' + toSafeInt(summary.recent3Count) + '名が新規登録。<br class="sp-only">コミュニティが拡大中です。';
         }
     }
 }
@@ -495,18 +523,56 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
     var safeInset = 20;
     var maxRadius = outerRadius - safeInset;
     var collisionPadding = 7;
+    var maxRadius2 = maxRadius * maxRadius;
     var goldenAngle = Math.PI * (3 - Math.sqrt(5));
-    var maxAttempts = 420;
+    var maxAttempts = 320;
     var ringStep = 11;
 
     var gridCell = 56;
-    var chunkBudgetMs = 7;
+    var chunkBudgetInit = 4;
+    var chunkBudgetFull = 12;
+    var chunkRampFrames = 3;
+    var fallbackScanSteps = 48;
+    var fallbackRingCount = 5;
+    var timeCheckStride = 4;
 
     var placed = [];
     var positions = new Array(items.length);
-    var grid = {};
+    var grid = Object.create(null);
     var scanStamp = 1;
     var index = 0;
+    var activePlacement = null;
+    var chunkCount = 0;
+
+    // --- GC対策: オブジェクトプールと事前計算テーブル ---
+    var tempCandidate = { cx: 0, cy: 0, left: 0, right: 0, top: 0, bottom: 0, _advScanStamp: 0 };
+
+    // fallback角度のcos/sinを事前計算（Math.cos/sin呼び出しを排除）
+    var fallbackCosTable = new Array(fallbackScanSteps);
+    var fallbackSinTable = new Array(fallbackScanSteps);
+    var fbi;
+    for (fbi = 0; fbi < fallbackScanSteps; fbi++) {
+        var fbAngle = (Math.PI * 2 * fbi) / fallbackScanSteps;
+        fallbackCosTable[fbi] = Math.cos(fbAngle);
+        fallbackSinTable[fbi] = Math.sin(fbAngle);
+    }
+
+    function fillBox(box, cx, cy, halfW, halfH) {
+        box.cx = cx;
+        box.cy = cy;
+        box.left = cx - halfW - collisionPadding;
+        box.right = cx + halfW + collisionPadding;
+        box.top = cy - halfH - collisionPadding;
+        box.bottom = cy + halfH + collisionPadding;
+    }
+
+    function cloneBox(box) {
+        return { cx: box.cx, cy: box.cy, left: box.left, right: box.right, top: box.top, bottom: box.bottom };
+    }
+
+    // halo要素の参照（初動中のアニメーション一時停止用）
+    var haloEl = cloudEl.parentElement ? cloudEl.parentElement.querySelector('.adv-cloud-halo') : null;
+    if (haloEl) haloEl.style.animationPlayState = 'paused';
 
     function isCanceled() {
         return renderToken !== advCloudRenderToken;
@@ -517,27 +583,27 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
     }
 
     function insideCircle(x, y, halfW, halfH) {
-        var r2 = maxRadius * maxRadius;
         var dx;
         var dy;
 
         dx = (x - halfW) - center; dy = (y - halfH) - center;
-        if ((dx * dx + dy * dy) > r2) return false;
+        if ((dx * dx + dy * dy) > maxRadius2) return false;
 
         dx = (x + halfW) - center; dy = (y - halfH) - center;
-        if ((dx * dx + dy * dy) > r2) return false;
+        if ((dx * dx + dy * dy) > maxRadius2) return false;
 
         dx = (x - halfW) - center; dy = (y + halfH) - center;
-        if ((dx * dx + dy * dy) > r2) return false;
+        if ((dx * dx + dy * dy) > maxRadius2) return false;
 
         dx = (x + halfW) - center; dy = (y + halfH) - center;
-        if ((dx * dx + dy * dy) > r2) return false;
+        if ((dx * dx + dy * dy) > maxRadius2) return false;
 
         return true;
     }
 
     function gridKey(gx, gy) {
-        return gx + ',' + gy;
+        // 数値キーで文字列連結・GCを回避（座標範囲 -5〜25 に十分）
+        return (gy + 64) * 1000 + (gx + 64);
     }
 
     function addBoxToGrid(box) {
@@ -558,7 +624,7 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
         }
     }
 
-    function countHits(candidate, stopAfter) {
+    function countHits(candidate, stopAfter, deadlineMs) {
         var minGX = Math.floor(candidate.left / gridCell);
         var maxGX = Math.floor(candidate.right / gridCell);
         var minGY = Math.floor(candidate.top / gridCell);
@@ -569,6 +635,7 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
         var list;
         var li;
         var hit = 0;
+        var scanOps = 0;
 
         scanStamp = scanStamp + 1;
         if (scanStamp > 2147483000) {
@@ -593,110 +660,165 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
                         hit++;
                         if (stopAfter && hit >= stopAfter) return hit;
                     }
+
+                    scanOps = scanOps + 1;
+                    if (deadlineMs && (scanOps % 16) === 0 && advCloudNowMs() >= deadlineMs) {
+                        return -1;
+                    }
                 }
             }
         }
         return hit;
     }
 
-    function placeOne(itemIndex) {
+    function createPlacementState(itemIndex) {
         var item = items[itemIndex];
-        var placedBox = null;
-        var baseAngle = (itemIndex * goldenAngle) % (Math.PI * 2);
+        return {
+            itemIndex: itemIndex,
+            item: item,
+            phase: 0,
+            baseAngle: (itemIndex * goldenAngle) % (Math.PI * 2),
+            attempt: 0,
+            placedBox: null,
+            best: null,
+            bestHits: 999999,
+            scan: 0,
+            fbRing: 0,
+            fbMaxR: maxRadius - (item.height * 0.5),
+            fbMinR: item.height * 0.6
+        };
+    }
+
+    function placeOne(itemIndex, deadlineMs) {
+        var state;
+        var item;
         var attempt;
+        var ring;
+        var ringDir;
+        var radius;
+        var maxAllowed;
+        var angle;
+        var x;
+        var y;
+        var halfW;
+        var halfH;
+        var candidate;
+        var primaryHits;
+        var fallbackRadius;
+        var scanAngle;
+        var fx;
+        var fy;
+        var fHalfW;
+        var fHalfH;
+        var fallback;
+        var hits;
 
-        if (itemIndex === 0) {
-            var cHalfW = item.width / 2;
-            var cHalfH = item.height / 2;
-            if (insideCircle(center, center, cHalfW, cHalfH)) {
-                placedBox = {
-                    cx: center,
-                    cy: center,
-                    left: center - cHalfW - collisionPadding,
-                    right: center + cHalfW + collisionPadding,
-                    top: center - cHalfH - collisionPadding,
-                    bottom: center + cHalfH + collisionPadding
-                };
-            }
+        if (!activePlacement || activePlacement.itemIndex !== itemIndex) {
+            activePlacement = createPlacementState(itemIndex);
         }
 
-        for (attempt = 0; attempt < maxAttempts && !placedBox; attempt++) {
-            var ring = Math.floor(attempt / 18);
-            // 内外交互探索: ring 0→+0, 1→-1, 2→+1, 3→-2, 4→+2, ...
-            var ringDir = (ring % 2 === 0) ? Math.floor(ring / 2) : -Math.ceil(ring / 2);
-            var radius = item.radius + (ringDir * ringStep);
-            if (radius < 0) radius = 0;
+        state = activePlacement;
+        item = state.item;
 
-            var maxAllowed = maxRadius - (item.height * 0.5);
-            if (radius > maxAllowed) radius = maxAllowed;
-
-            var angle = baseAngle + (attempt * goldenAngle * 0.45);
-            var x = center + Math.cos(angle) * radius;
-            var y = center + Math.sin(angle) * radius;
-            var halfW = item.width / 2;
-            var halfH = item.height / 2;
-
-            if (!insideCircle(x, y, halfW, halfH)) continue;
-
-            var candidate = {
-                cx: x,
-                cy: y,
-                left: x - halfW - collisionPadding,
-                right: x + halfW + collisionPadding,
-                top: y - halfH - collisionPadding,
-                bottom: y + halfH + collisionPadding
-            };
-
-            if (countHits(candidate, 1) === 0) {
-                placedBox = candidate;
-            }
-        }
-
-        if (!placedBox) {
-            var best = null;
-            var bestHits = 999999;
-            var scan;
-            var scanSteps = 64;
-            var fbRingCount = 6;
-            var fbMaxR = maxRadius - (item.height * 0.5);
-            var fbMinR = item.height * 0.6;
-            var fbRing;
-
-            for (fbRing = 0; fbRing < fbRingCount && bestHits > 0; fbRing++) {
-                var fallbackRadius = fbMaxR - (fbRing * ((fbMaxR - fbMinR) / (fbRingCount - 1)));
-                if (fallbackRadius < fbMinR) fallbackRadius = fbMinR;
-
-                for (scan = 0; scan < scanSteps; scan++) {
-                    var scanAngle = (Math.PI * 2 * scan) / scanSteps;
-                    var fx = center + Math.cos(scanAngle) * fallbackRadius;
-                    var fy = center + Math.sin(scanAngle) * fallbackRadius;
-                    var fHalfW = item.width / 2;
-                    var fHalfH = item.height / 2;
-
-                    if (!insideCircle(fx, fy, fHalfW, fHalfH)) continue;
-
-                    var fallback = {
-                        cx: fx,
-                        cy: fy,
-                        left: fx - fHalfW - collisionPadding,
-                        right: fx + fHalfW + collisionPadding,
-                        top: fy - fHalfH - collisionPadding,
-                        bottom: fy + fHalfH + collisionPadding
+        if (state.phase === 0) {
+            if (itemIndex === 0) {
+                halfW = item.width / 2;
+                halfH = item.height / 2;
+                if (insideCircle(center, center, halfW, halfH)) {
+                    state.placedBox = {
+                        cx: center,
+                        cy: center,
+                        left: center - halfW - collisionPadding,
+                        right: center + halfW + collisionPadding,
+                        top: center - halfH - collisionPadding,
+                        bottom: center + halfH + collisionPadding
                     };
-
-                    var hits = countHits(fallback, bestHits);
-                    if (hits < bestHits) {
-                        bestHits = hits;
-                        best = fallback;
-                        if (hits === 0) break;
-                    }
                 }
             }
+            state.phase = 1;
+        }
 
-            if (best) {
-                placedBox = best;
+        while (state.phase === 1 && state.attempt < maxAttempts && !state.placedBox) {
+            attempt = state.attempt;
+            state.attempt = state.attempt + 1;
+
+            ring = Math.floor(attempt / 18);
+            // 内外交互探索: ring 0→+0, 1→-1, 2→+1, 3→-2, 4→+2, ...
+            ringDir = (ring % 2 === 0) ? Math.floor(ring / 2) : -Math.ceil(ring / 2);
+            radius = item.radius + (ringDir * ringStep);
+            if (radius < 0) radius = 0;
+
+            maxAllowed = maxRadius - (item.height * 0.5);
+            if (radius > maxAllowed) radius = maxAllowed;
+
+            angle = state.baseAngle + (attempt * goldenAngle * 0.45);
+            x = center + Math.cos(angle) * radius;
+            y = center + Math.sin(angle) * radius;
+            halfW = item.width / 2;
+            halfH = item.height / 2;
+
+            if (!insideCircle(x, y, halfW, halfH)) {
+                if ((state.attempt % timeCheckStride) === 0 && advCloudNowMs() >= deadlineMs) return false;
+                continue;
+            }
+
+            fillBox(tempCandidate, x, y, halfW, halfH);
+
+            primaryHits = countHits(tempCandidate, 1, deadlineMs);
+            if (primaryHits === -1) return false;
+            if (primaryHits === 0) {
+                state.placedBox = cloneBox(tempCandidate);
+                break;
+            }
+
+            if ((state.attempt % timeCheckStride) === 0 && advCloudNowMs() >= deadlineMs) return false;
+        }
+
+        if (!state.placedBox && state.phase === 1) {
+            state.phase = 2;
+        }
+
+        while (state.phase === 2 && state.fbRing < fallbackRingCount && state.bestHits > 0) {
+            fallbackRadius = state.fbMaxR - (state.fbRing * ((state.fbMaxR - state.fbMinR) / (fallbackRingCount - 1)));
+            if (fallbackRadius < state.fbMinR) fallbackRadius = state.fbMinR;
+
+            while (state.scan < fallbackScanSteps) {
+                fx = center + fallbackCosTable[state.scan] * fallbackRadius;
+                fy = center + fallbackSinTable[state.scan] * fallbackRadius;
+                state.scan = state.scan + 1;
+                fHalfW = item.width / 2;
+                fHalfH = item.height / 2;
+
+                if (!insideCircle(fx, fy, fHalfW, fHalfH)) {
+                    if ((state.scan % 8) === 0 && advCloudNowMs() >= deadlineMs) return false;
+                    continue;
+                }
+
+                fillBox(tempCandidate, fx, fy, fHalfW, fHalfH);
+
+                hits = countHits(tempCandidate, state.bestHits, deadlineMs);
+                if (hits === -1) return false;
+                if (hits < state.bestHits) {
+                    state.bestHits = hits;
+                    state.best = cloneBox(tempCandidate);
+                    if (hits === 0) break;
+                }
+
+                if ((state.scan % 8) === 0 && advCloudNowMs() >= deadlineMs) return false;
+            }
+
+            if (state.bestHits === 0) break;
+            state.scan = 0;
+            state.fbRing = state.fbRing + 1;
+
+            if (advCloudNowMs() >= deadlineMs) return false;
+        }
+
+        if (!state.placedBox) {
+            if (state.best) {
+                state.placedBox = state.best;
             } else {
-                placedBox = {
+                state.placedBox = {
                     cx: center,
                     cy: center,
                     left: center - (item.width / 2) - collisionPadding,
@@ -707,17 +829,19 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
             }
         }
 
-        placed.push(placedBox);
-        addBoxToGrid(placedBox);
-        positions[itemIndex] = placedBox;
+        placed.push(state.placedBox);
+        addBoxToGrid(state.placedBox);
+        positions[itemIndex] = state.placedBox;
+        activePlacement = null;
+        return true;
     }
 
     function commitDom() {
         if (isCanceled()) return;
 
         var svg = document.createElementNS(svgNS, 'svg');
-        var frag = document.createDocumentFragment();
-        var i;
+        var commitIdx = 0;
+        var commitBudget = 6;
 
         svg.setAttribute('class', 'adv-job-cloud-svg');
         svg.setAttribute('viewBox', '0 ' + vbCropY + ' ' + vbSize + ' ' + vbHeight);
@@ -725,43 +849,78 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
         svg.setAttribute('role', 'img');
         svg.setAttribute('aria-label', '職業ワードクラウド');
 
-        for (i = 0; i < items.length; i++) {
-            var item = items[i];
-            var placedBox = positions[i];
-            var text = document.createElementNS(svgNS, 'text');
-            var title = document.createElementNS(svgNS, 'title');
+        function commitBatch() {
+            if (isCanceled()) return;
+            var batchStart = advCloudNowMs();
+            var batchDeadline = batchStart + commitBudget;
 
-            text.setAttribute('class', 'adv-job-word');
-            text.setAttribute('x', Math.round(placedBox.cx * 10) / 10);
-            text.setAttribute('y', Math.round(placedBox.cy * 10) / 10);
-            text.setAttribute('font-size', item.size);
-            text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('dominant-baseline', 'middle');
-            text.style.transitionDelay = (i * 16) + 'ms';
+            while (commitIdx < items.length) {
+                var ci = commitIdx;
+                var cItem = items[ci];
+                var placedBox = positions[ci];
+                var text = document.createElementNS(svgNS, 'text');
+                var title = document.createElementNS(svgNS, 'title');
 
-            title.appendChild(document.createTextNode(item.count + '名'));
-            text.appendChild(title);
-            text.appendChild(document.createTextNode(item.label));
-            frag.appendChild(text);
+                text.setAttribute('class', 'adv-job-word');
+                text.setAttribute('x', Math.round(placedBox.cx * 10) / 10);
+                text.setAttribute('y', Math.round(placedBox.cy * 10) / 10);
+                text.setAttribute('font-size', cItem.size);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.style.transitionDelay = (ci * 16) + 'ms';
+
+                title.appendChild(document.createTextNode(cItem.count + '名'));
+                text.appendChild(title);
+                text.appendChild(document.createTextNode(cItem.label));
+                svg.appendChild(text);
+
+                commitIdx++;
+                if (advCloudNowMs() >= batchDeadline) break;
+            }
+
+            if (commitIdx < items.length) {
+                advCloudScheduleTask(commitBatch);
+                return;
+            }
+
+            if (isCanceled()) return;
+            cloudEl.appendChild(svg);
+
+            // haloアニメーションを再開
+            if (haloEl) haloEl.style.animationPlayState = '';
+
+            if (typeof onDone === 'function') onDone();
         }
 
-        svg.appendChild(frag);
-
-        if (isCanceled()) return;
-        cloudEl.appendChild(svg);
-
-        if (typeof onDone === 'function') onDone();
+        commitBatch();
     }
 
     function runChunk() {
         var start;
+        var budget;
+        var deadlineMs;
+        var completed;
+
         if (isCanceled()) return;
 
         start = advCloudNowMs();
+        // 初回フレームはCSSトランジション開始と競合するため軽量に、以降はフル予算
+        budget = chunkCount < chunkRampFrames ? chunkBudgetInit : chunkBudgetFull;
+        chunkCount = chunkCount + 1;
+        deadlineMs = start + budget;
+
+        var wordsThisChunk = 0;
+        var maxWordsInit = 2;
+
         while (index < items.length) {
-            placeOne(index);
-            index++;
-            if ((advCloudNowMs() - start) >= chunkBudgetMs) break;
+            completed = placeOne(index, deadlineMs);
+            if (!completed) break;
+            index = index + 1;
+            wordsThisChunk++;
+
+            // 初回ランプアップ中は1チャンクの配置数を制限しovershootを防止
+            if (chunkCount <= chunkRampFrames && wordsThisChunk >= maxWordsInit) break;
+            if (advCloudNowMs() >= deadlineMs) break;
         }
 
         if (isCanceled()) return;
@@ -771,7 +930,8 @@ function renderJobWordCloudSvg(cloudEl, items, renderToken, onDone) {
             return;
         }
 
-        commitDom();
+        // DOM挿入を次フレームに分離し、最終チャンクとの同一フレーム競合を回避
+        advCloudScheduleTask(commitDom);
     }
 
     advCloudScheduleTask(runChunk);
@@ -784,6 +944,10 @@ function renderJobWordCloud(summary) {
     advCloudRenderToken = advCloudRenderToken + 1;
     advCloudCancelScheduledTask();
     var renderToken = advCloudRenderToken;
+
+    // 前回のSVGレンダーでpausedされたhaloを確実に復帰させる
+    var prevHalo = cloudEl.parentElement ? cloudEl.parentElement.querySelector('.adv-cloud-halo') : null;
+    if (prevHalo) prevHalo.style.animationPlayState = '';
 
     var useFlowLayout = isFlowJobCloudLayout();
 
@@ -903,7 +1067,7 @@ function renderRankBars(summary) {
 
     setTimeout(function () {
         barsEl.classList.add('is-ready');
-    }, 60);
+    }, 200);
 }
 
 function renderAdventurerStyleSection(summary) {
@@ -919,8 +1083,8 @@ function renderAdventurerStyleSection(summary) {
     }
 
     if (copyEl) {
-        copyEl.textContent =
-            'ランクE～Fの初級冒険者が' + summary.beginnerRatio + '%を占めています。初参加の方も馴染みやすい雰囲気です。';
+        copyEl.innerHTML =
+            'ランクE～Fの初級冒険者が<br class="sp-only">' + toSafeInt(summary.beginnerRatio) + '%を占めています。<br class="sp-only">初参加の方も<br class="sp-only">馴染みやすい雰囲気です。';
     }
 }
 
@@ -960,8 +1124,22 @@ function startAdventurerDataLoad() {
 
     loadAdventurerDataSummary()
         .then(function (summary) {
-            renderAdventurerProofSection(summary);
-            renderAdventurerStyleSection(summary);
+            // データ集計→KPI/グラフ→ワードクラウドを3フレームに分散
+            var step1 = function () {
+                renderAdventurerProofSection(summary);
+                if (window.requestAnimationFrame) {
+                    requestAnimationFrame(function () {
+                        renderAdventurerStyleSection(summary);
+                    });
+                } else {
+                    renderAdventurerStyleSection(summary);
+                }
+            };
+            if (window.requestAnimationFrame) {
+                requestAnimationFrame(step1);
+            } else {
+                step1();
+            }
         })
         .catch(function () {
             hideAdventurerDataSections();
@@ -1054,7 +1232,11 @@ if ('IntersectionObserver' in window) {
     var fadeObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+                var target = entry.target;
+                enqueueUiMutation(function () {
+                    target.classList.add('visible');
+                });
+                fadeObserver.unobserve(target);
             }
         });
     }, {
@@ -1103,13 +1285,16 @@ if ('IntersectionObserver' in window) {
 
     var navObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
-            if (!entry.isIntersecting) {
-                nav.classList.add('visible');
-                backToTop.classList.add('visible');
-            } else {
-                nav.classList.remove('visible');
-                backToTop.classList.remove('visible');
-            }
+            var isOut = !entry.isIntersecting;
+            enqueueUiMutation(function () {
+                if (isOut) {
+                    nav.classList.add('visible');
+                    backToTop.classList.add('visible');
+                } else {
+                    nav.classList.remove('visible');
+                    backToTop.classList.remove('visible');
+                }
+            });
         });
     }, {
         threshold: 0.05
@@ -1166,15 +1351,19 @@ if ('IntersectionObserver' in window) {
         }
 
         el.classList.remove('is-reveal');
+        // レイヤ昇格を事前に行い、transition開始時のPaint準備コストを分散
+        el.classList.add('is-prep');
 
         if (window.requestAnimationFrame) {
             window.requestAnimationFrame(function () {
                 window.requestAnimationFrame(function () {
+                    el.classList.remove('is-prep');
                     el.classList.add('is-reveal');
                 });
             });
         } else {
             setTimeout(function () {
+                el.classList.remove('is-prep');
                 el.classList.add('is-reveal');
             }, 34);
         }
@@ -1198,16 +1387,18 @@ if ('IntersectionObserver' in window) {
             var i;
             for (i = 0; i < entries.length; i++) {
                 if (entries[i].isIntersecting) {
-                    section.classList.add('is-active');
                     sectionObserver.unobserve(section);
-                    // データが先にロード済みなら reveal をトリガー
-                    if (cloud && cloud.querySelectorAll('.adv-job-word').length > 0) {
-                        replayReveal(cloud);
-                    }
-                    if (bars && bars.querySelectorAll('.adv-rank-item').length > 0) {
-                        applyOrders();
-                        replayReveal(bars);
-                    }
+                    enqueueUiMutation(function () {
+                        section.classList.add('is-active');
+                        // データが先にロード済みなら reveal をトリガー
+                        if (cloud && cloud.querySelectorAll('.adv-job-word').length > 0) {
+                            replayReveal(cloud);
+                        }
+                        if (bars && bars.querySelectorAll('.adv-rank-item').length > 0) {
+                            applyOrders();
+                            replayReveal(bars);
+                        }
+                    });
                     break;
                 }
             }

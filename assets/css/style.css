@@ -168,6 +168,8 @@ h1, h2, h3 {
     text-decoration-color: rgba(255, 255, 255, 0.8);
 }
 
+.mb-1 { margin-bottom: 8px; }
+
 .sp-only {
     display: none;
 }
@@ -947,15 +949,16 @@ body.loaded .hero-scroll-hint {
 
 #adventurer-style .adv-panel-title {
     color: var(--text);
-    text-align: left;
+    text-align: center;
     margin-bottom: 10px;
     font-size: clamp(1.2rem, 1.4vw, 1.42rem);
 }
 
 #adventurer-style .adv-panel-copy {
-    text-align: left;
+    text-align: center;
     margin-bottom: 16px;
     color: var(--text-weak);
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
     line-height: 1.8;
 }
 
@@ -1021,6 +1024,11 @@ body.loaded .hero-scroll-hint {
     line-height: 1.1;
     white-space: nowrap;
     color: var(--text);
+}
+
+/* Reveal前のレイヤプリプロモート（transition開始時のPaint準備コストを事前に分散） */
+#adventurer-style .adv-job-cloud.is-prep .adv-job-word {
+    will-change: transform, opacity;
 }
 
 #adventurer-style .adv-job-cloud.is-reveal .adv-job-word {
@@ -1850,6 +1858,10 @@ body.loaded .hero-scroll-hint {
         padding: 8px 6px;
     }
 
+    .section-lead {
+        margin-top: -16px;
+    }
+
     .social-profile {
         flex-direction: column;
         text-align: center;
@@ -1885,8 +1897,16 @@ body.loaded .hero-scroll-hint {
         max-width: 320px;
     }
 
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 2.5rem);
+    }
+
     .section-title {
         margin-bottom: 36px;
+    }
+
+    .section-lead {
+        margin-top: -12px;
     }
 
     .concept-block {
@@ -1960,7 +1980,7 @@ body.loaded .hero-scroll-hint {
         padding: 24px 14px;
     }
 
-    #adventurer-style .adv-conversion-sub br {
+    #adventurer-style .adv-conversion-sub br:not(.sp-only) {
         display: none;
     }
 
