@@ -83,7 +83,6 @@ document.getElementById('current-year').textContent = new Date().getFullYear();
 
 // --- Event Stats Data ---
 var eventStats = [
-    { date: '12/5(金)', value: 126, label: '第10回' },
     { date: '12/13(土)', value: 79, label: '第11回' },
     { date: '12/19(金)', value: 103, label: '第12回' },
     { date: '12/24(水)', value: 70, label: '第13回' },
@@ -93,6 +92,7 @@ var eventStats = [
     { date: '2/6(金)', value: 155, label: '第17回' },
     { date: '2/14(土)', value: 90, label: '第18回' },
     { date: '2/20(金)', value: 80, label: '第19回' },
+    { date: '2/28(土)', value: 113, label: '第20回' },
 ];
 
 // --- Generate Chart ---
