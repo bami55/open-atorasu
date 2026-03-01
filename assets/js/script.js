@@ -27,6 +27,18 @@ var heroImages = [
     '/assets/images/hero/hero014.webp',
     '/assets/images/hero/hero015.webp',
     '/assets/images/hero/hero016.webp',
+    '/assets/images/hero/hero017.webp',
+    '/assets/images/hero/hero018.webp',
+    '/assets/images/hero/hero019.webp',
+    '/assets/images/hero/hero020.webp',
+    '/assets/images/hero/hero021.webp',
+    '/assets/images/hero/hero022.webp',
+    '/assets/images/hero/hero023.webp',
+    '/assets/images/hero/hero024.webp',
+    '/assets/images/hero/hero025.webp',
+    '/assets/images/hero/hero026.webp',
+    '/assets/images/hero/hero027.webp',
+    '/assets/images/hero/hero028.webp',
 ];
 
 // Shuffle (Fisher-Yates)
